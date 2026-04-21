@@ -1,0 +1,30 @@
+# ── Node ──────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Environment variables — NEVER commit these ─────────
+.env
+.env.local
+.env.production
+
+# ── OS files ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+
+# ── Build output ────────────────────────────────────────
+dist/
+build/
+.cache/
+
+# ── Logs ───────────────────────────────────────────────
+logs/
+*.log

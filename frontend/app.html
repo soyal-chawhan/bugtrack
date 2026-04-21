@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BugTrack — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+
+  <div class="app-shell" id="appShell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-mark">B</span>
+        <span class="brand-name">BugTrack</span>
+        <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" title="Toggle sidebar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Menu</span>
+        <a href="#" class="nav-link active" data-view="dashboard">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-link" data-view="kanban">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="4" height="18" rx="1"/><rect x="10" y="3" width="4" height="13" rx="1"/><rect x="17" y="3" width="4" height="10" rx="1"/></svg>
+          <span>Kanban Board</span>
+        </a>
+        <a href="#" class="nav-link" data-view="tickets">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>All Tickets</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-projects">
+        <div class="projects-label-row">
+          <span class="nav-section-label">Projects</span>
+          <button class="icon-btn" id="newProjectBtn" title="New project">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+        </div>
+        <ul class="project-list" id="projectList"></ul>
+      </div>
+
+      <div class="sidebar-bottom">
+        <button class="sidebar-bottom-btn" id="themePickerBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+          <span>Change Theme</span>
+        </button>
+        <div class="sidebar-user" id="sidebarUser"></div>
+        <button class="sidebar-bottom-btn" id="accountSettingsBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span>Account</span>
+        </button>
+        <button class="sidebar-bottom-btn logout-btn" id="logoutBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main-wrap">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h1 class="page-title" id="pageTitle">Dashboard</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="search-box">
+            <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="search-input" type="text" id="searchInput" placeholder="Search tickets..." />
+          </div>
+          <button class="btn btn-primary" id="newTicketBtn">+ New Ticket</button>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section class="page active" id="page-dashboard">
+        <div class="stats-row">
+          <div class="stat-card"><span class="stat-label">Total Tickets</span><span class="stat-value" id="stat-total">0</span></div>
+          <div class="stat-card stat-open"><span class="stat-label">Open</span><span class="stat-value" id="stat-open">0</span></div>
+          <div class="stat-card stat-inprogress"><span class="stat-label">In Progress</span><span class="stat-value" id="stat-progress">0</span></div>
+          <div class="stat-card stat-done"><span class="stat-label">Resolved</span><span class="stat-value" id="stat-done">0</span></div>
+        </div>
+        <div class="dash-two-col">
+          <div class="panel">
+            <div class="panel-head"><h3>Recent Tickets</h3></div>
+            <div class="panel-body"><ul class="recent-list" id="recentTickets"></ul></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>Priority Breakdown</h3></div>
+            <div class="panel-body"><div class="priority-bars" id="priorityBars"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KANBAN -->
+      <section class="page" id="page-kanban">
+        <div class="page-filters">
+          <select class="filter-select" id="kanbanProjectFilter"><option value="">All Projects</option></select>
+          <select class="filter-select" id="kanbanPriorityFilter">
+            <option value="">All Priorities</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="kanban-board" id="kanbanBoard">
+          <div class="kanban-col" data-status="todo">
+            <div class="col-head"><span class="status-pip pip-todo"></span><span class="col-name">To Do</span><span class="col-badge" id="badge-todo">0</span></div>
+            <div class="col-cards" id="cards-todo" ondragover="event.preventDefault()" ondrop="Kanban.onDrop(event,'todo')"></div>
+          </div>
+          <div class="kanban-col" data-status="inprogress">
+            <div class="col-head"><span class="status-pip pip-inprogress"></span><span class="col-name">In Progress</span><span class="col-badge" id="badge-inprogress">0</span></div>
+            <div class="col-cards" id="cards-inprogress" ondragover="event.preventDefault()" ondrop="Kanban.onDrop(event,'inprogress')"></div>
+          </div>
+          <div class="kanban-col" data-status="done">
+            <div class="col-head"><span class="status-pip pip-done"></span><span class="col-name">Done</span><span class="col-badge" id="badge-done">0</span></div>
+            <div class="col-cards" id="cards-done" ondragover="event.preventDefault()" ondrop="Kanban.onDrop(event,'done')"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ALL TICKETS -->
+      <section class="page" id="page-tickets">
+        <div class="page-filters">
+          <select class="filter-select" id="filterStatus"><option value="">All Statuses</option><option value="todo">To Do</option><option value="inprogress">In Progress</option><option value="done">Done</option></select>
+          <select class="filter-select" id="filterPriority"><option value="">All Priorities</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+          <select class="filter-select" id="filterProject"><option value="">All Projects</option></select>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>ID</th><th>Title</th><th>Project</th><th>Priority</th><th>Status</th><th>Assignee</th><th>Created</th><th></th></tr></thead>
+            <tbody id="ticketsTableBody"></tbody>
+          </table>
+          <div class="empty-state hidden" id="ticketsEmpty">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <p>No tickets found</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- THEME PICKER (in-app) -->
+  <div class="modal-backdrop hidden" id="themeOverlayInapp">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 class="modal-title">Change Theme</h2>
+        <button class="modal-close" id="closeThemePicker"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <div class="theme-grid-inapp">
+          <button class="theme-btn-inapp" onclick="changeTheme('light')"><span class="tdot tdot-light"></span>Clean Light</button>
+          <button class="theme-btn-inapp" onclick="changeTheme('dark')"><span class="tdot tdot-dark"></span>Charcoal Dark</button>
+          <button class="theme-btn-inapp" onclick="changeTheme('forest')"><span class="tdot tdot-forest"></span>Forest Green</button>
+          <button class="theme-btn-inapp" onclick="changeTheme('sand')"><span class="tdot tdot-sand"></span>Desert Sand</button>
+          <button class="theme-btn-inapp" onclick="changeTheme('slate')"><span class="tdot tdot-slate"></span>Slate Blue</button>
+          <button class="theme-btn-inapp" onclick="changeTheme('rose')"><span class="tdot tdot-rose"></span>Rose Quartz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE / EDIT TICKET -->
+  <div class="modal-backdrop hidden" id="ticketModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">New Ticket</h2>
+        <button class="modal-close" id="closeTicketModal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <form id="ticketForm" autocomplete="off">
+          <input type="hidden" id="ticketId" />
+          <div class="form-group">
+            <label for="ticketTitle">Title <span class="required">*</span></label>
+            <input type="text" id="ticketTitle" placeholder="Brief description of the issue" required />
+          </div>
+          <div class="form-group">
+            <label for="ticketDesc">Description</label>
+            <textarea id="ticketDesc" rows="3" placeholder="Steps to reproduce, expected vs actual..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ticketProject">Project <span class="required">*</span></label>
+              <select id="ticketProject" required><option value="">Select project</option></select>
+            </div>
+            <div class="form-group">
+              <label for="ticketPriority">Priority</label>
+              <select id="ticketPriority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ticketStatus">Status</label>
+              <select id="ticketStatus"><option value="todo">To Do</option><option value="inprogress">In Progress</option><option value="done">Done</option></select>
+            </div>
+            <div class="form-group">
+              <label for="ticketAssignee">Assignee</label>
+              <input type="text" id="ticketAssignee" placeholder="Team member name" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="cancelTicketBtn">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="ticketSubmitBtn">Create Ticket</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PROJECT (create / manage) -->
+  <div class="modal-backdrop hidden" id="projectModal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 class="modal-title" id="projectModalTitle">New Project</h2>
+        <button class="modal-close" id="closeProjectModal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <form id="projectForm" autocomplete="off">
+          <input type="hidden" id="projectEditId" />
+          <div class="form-group">
+            <label for="projectName">Project name <span class="required">*</span></label>
+            <input type="text" id="projectName" placeholder="e.g. Alpha App, Mobile v2..." required />
+          </div>
+          <div class="form-group">
+            <label for="projectDesc">Description</label>
+            <input type="text" id="projectDesc" placeholder="One-line summary (optional)" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="cancelProjectBtn">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="projectSubmitBtn">Create Project</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PROJECT DETAIL (members, delete) -->
+  <div class="modal-backdrop hidden" id="projectDetailModal">
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <h2 class="modal-title" id="projectDetailName"></h2>
+        <button class="modal-close" id="closeProjectDetailModal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="detail-body">
+        <div class="detail-left">
+          <p class="section-subtitle" id="projectDetailDesc"></p>
+
+          <h4 class="section-heading">Team Members</h4>
+          <ul class="members-list" id="membersList"></ul>
+
+          <div class="add-member-row">
+            <input type="text" id="addMemberInput" placeholder="Enter member name or email" />
+            <button class="btn btn-primary btn-sm" onclick="ProjectManager.addMember()">Add</button>
+          </div>
+
+          <h4 class="section-heading" style="margin-top:24px">Tickets in this project</h4>
+          <ul class="recent-list" id="projectTicketsList"></ul>
+        </div>
+        <div class="detail-right">
+          <div class="detail-meta">
+            <div class="meta-row"><span class="meta-label">Created</span><span class="meta-value" id="projectDetailCreated"></span></div>
+            <div class="meta-row"><span class="meta-label">Total tickets</span><span class="meta-value" id="projectDetailTicketCount"></span></div>
+            <div class="meta-row"><span class="meta-label">Open</span><span class="meta-value" id="projectDetailOpen"></span></div>
+          </div>
+          <div class="detail-actions">
+            <button class="btn btn-ghost btn-sm" id="editProjectBtn">Edit Project</button>
+            <button class="btn btn-danger btn-sm" id="deleteProjectBtn">Delete Project</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TICKET DETAIL + COMMENTS -->
+  <div class="modal-backdrop hidden" id="detailModal">
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <div class="detail-title-wrap">
+          <span class="detail-id" id="detailId"></span>
+          <h2 class="modal-title" id="detailTitle"></h2>
+        </div>
+        <button class="modal-close" id="closeDetailModal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="detail-body">
+        <div class="detail-left">
+          <p class="detail-desc" id="detailDesc"></p>
+          <div class="comments-section">
+            <h4>Comments</h4>
+            <ul class="comments-list" id="commentsList"></ul>
+            <form class="comment-form" id="commentForm">
+              <textarea id="commentInput" rows="2" placeholder="Write a comment..."></textarea>
+              <button type="submit" class="btn btn-primary btn-sm">Post</button>
+            </form>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-meta">
+            <div class="meta-row"><span class="meta-label">Status</span><span class="badge" id="detailStatus"></span></div>
+            <div class="meta-row"><span class="meta-label">Priority</span><span class="badge" id="detailPriority"></span></div>
+            <div class="meta-row"><span class="meta-label">Project</span><span class="meta-value" id="detailProject"></span></div>
+            <div class="meta-row"><span class="meta-label">Assignee</span><span class="meta-value" id="detailAssignee"></span></div>
+            <div class="meta-row"><span class="meta-label">Created</span><span class="meta-value" id="detailCreated"></span></div>
+          </div>
+          <div class="detail-actions">
+            <button class="btn btn-ghost btn-sm" id="editTicketBtn">Edit Ticket</button>
+            <button class="btn btn-danger btn-sm" id="deleteTicketBtn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ACCOUNT SETTINGS -->
+  <div class="modal-backdrop hidden" id="accountModal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 class="modal-title">Account Settings</h2>
+        <button class="modal-close" id="closeAccountModal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <div class="account-info">
+          <div class="account-avatar" id="accountAvatar"></div>
+          <div>
+            <div class="account-name" id="accountName"></div>
+            <div class="account-email" id="accountEmail"></div>
+          </div>
+        </div>
+        <div class="danger-zone">
+          <h4>Danger Zone</h4>
+          <p>Deleting your account is permanent and cannot be undone. All your data will be removed.</p>
+          <button class="btn btn-danger btn-full" id="deleteAccountBtn">Delete My Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
