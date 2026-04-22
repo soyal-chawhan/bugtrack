@@ -3,7 +3,7 @@
   Redirects to index.html if not logged in.
 */
 
-const API = 'https://bugtrack-api-yst6.onrender.com';
+const API = 'https://bugtrack-api-yst6.onrender.com/api';
 
 const _token = localStorage.getItem('bt_token');
 const _user  = localStorage.getItem('bt_user');

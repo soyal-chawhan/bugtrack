@@ -4,7 +4,7 @@
   HTML uses: Auth.show(), Auth.togglePw(), Auth.googleSignIn(), Auth.resendOtp()
 */
 
-const API = 'https://bugtrack-api-yst6.onrender.com';
+const API = 'https://bugtrack-api-yst6.onrender.com/api';
 
 // ── Theme ─────────────────────────────────────────────────────────────────────
 
