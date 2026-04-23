@@ -93,50 +93,43 @@ const Auth = {
 
   // Google Sign-In popup
 googleSignIn() {
-    if (typeof google === 'undefined') {
-      alert('Google Sign-In is not ready yet. Please wait a second and try again.');
-      return;
+  if (typeof google === 'undefined') {
+    alert('Google Sign-In is loading. Please wait a second and try again.');
+    return;
+  }
+
+  // ── paste your Client ID here ──────────────────────
+  const CLIENT_ID = '759141366298-5u2hf2h42lh9enc2t2msv160b9prjn35.apps.googleusercontent.com';
+  // ───────────────────────────────────────────────────
+
+  google.accounts.id.initialize({
+    client_id:          CLIENT_ID,
+    callback:           Auth.handleGoogleResponse,
+    auto_select:        false,
+    cancel_on_tap_outside: true,
+    ux_mode:            'popup',
+    context:            'signin',
+  });
+
+  google.accounts.id.prompt((notification) => {
+    if (notification.getMomentType() === 'skipped' ||
+        notification.getMomentType() === 'dismissed') {
+      // One Tap was blocked — fall back to button click
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'position:fixed;opacity:0;pointer-events:none;top:0;left:0';
+      document.body.appendChild(wrap);
+      google.accounts.id.renderButton(wrap, {
+        type:  'standard',
+        theme: 'outline',
+        size:  'large',
+      });
+      setTimeout(() => {
+        wrap.querySelector('div[role=button]')?.click();
+        setTimeout(() => wrap.remove(), 1000);
+      }, 100);
     }
-
-    // ── your client ID ─────────────────────────────────────
-    const CLIENT_ID = '759141366298-5u2hf2h42lh9enc2t2msv160b9prjn35.apps.googleusercontent.com';
-    // ───────────────────────────────────────────────────────
-
-    const client = google.accounts.oauth2.initTokenClient({
-      client_id: CLIENT_ID,
-      scope:     'openid email profile',
-      callback:  async (tokenResponse) => {
-        if (tokenResponse.error) {
-          showError('loginError', 'Google sign-in was cancelled or failed.');
-          return;
-        }
-        try {
-          // get user info from Google using the access token
-          const infoRes  = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-            headers: { Authorization: 'Bearer ' + tokenResponse.access_token },
-          });
-          const userInfo = await infoRes.json();
-
-          // send to our backend
-          const data = await post('/auth/google-token', {
-            email:    userInfo.email,
-            name:     userInfo.name,
-            googleId: userInfo.sub,
-            verified: userInfo.email_verified,
-          });
-
-          if (data.error) { showError('loginError', data.error); return; }
-
-          saveSession(data.token, data.user);
-          window.location.href = 'app.html';
-        } catch {
-          showError('loginError', 'Google sign-in failed. Please try again.');
-        }
-      },
-    });
-
-    client.requestAccessToken({ prompt: 'select_account' });
-  },
+  });
+},
 
   // resend OTP button
   async resendOtp() {
