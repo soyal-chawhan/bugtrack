@@ -34,10 +34,11 @@ app.use(cors({
   methods:        ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.json({ message: 'BugTrack API running', version: '2.0.0' });
+// allow Google OAuth popup to communicate back
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+  next();
 });
 
 app.use('/api/auth',     authRoutes);

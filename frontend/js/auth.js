@@ -98,38 +98,21 @@ googleSignIn() {
     return;
   }
 
-  // ── paste your Client ID here ──────────────────────
-  const CLIENT_ID = '759141366298-5u2hf2h42lh9enc2t2msv160b9prjn35.apps.googleusercontent.com';
-  // ───────────────────────────────────────────────────
+  // only initialize once
+  if (!Auth._googleInitialized) {
+    google.accounts.id.initialize({
+      client_id:             '759141366298-5u2hf2h42lh9enc2t2msv160b9prjn35.apps.googleusercontent.com',
+      callback:              Auth.handleGoogleResponse,
+      auto_select:           false,
+      cancel_on_tap_outside: true,
+    });
+    Auth._googleInitialized = true;
+  }
 
-  google.accounts.id.initialize({
-    client_id:          CLIENT_ID,
-    callback:           Auth.handleGoogleResponse,
-    auto_select:        false,
-    cancel_on_tap_outside: true,
-    ux_mode:            'popup',
-    context:            'signin',
-  });
-
-  google.accounts.id.prompt((notification) => {
-    if (notification.getMomentType() === 'skipped' ||
-        notification.getMomentType() === 'dismissed') {
-      // One Tap was blocked — fall back to button click
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'position:fixed;opacity:0;pointer-events:none;top:0;left:0';
-      document.body.appendChild(wrap);
-      google.accounts.id.renderButton(wrap, {
-        type:  'standard',
-        theme: 'outline',
-        size:  'large',
-      });
-      setTimeout(() => {
-        wrap.querySelector('div[role=button]')?.click();
-        setTimeout(() => wrap.remove(), 1000);
-      }, 100);
-    }
-  });
+  google.accounts.id.prompt();
 },
+
+_googleInitialized: false,
 
   // resend OTP button
   async resendOtp() {
