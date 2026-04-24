@@ -19,7 +19,8 @@ const allowedOrigins = [
   'http://localhost:5500',
   'http://127.0.0.1:3000',
   'http://localhost:3000',
-  'bugtrack-soyalchawhans-projects.vercel.app',
+  'https://bugtrack.vercel.app',
+  'https://bugtrack-soyalchawhans-projects.vercel.app',  // ← your actual URL
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
