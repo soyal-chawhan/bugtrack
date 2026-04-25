@@ -46,9 +46,9 @@ router.post('/register', async (req, res) => {
     await sendOTPEmail(email, otp);
     res.json({ message: 'OTP sent to your email.', email });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Registration failed. Please try again.' });
-  }
+  console.error('REGISTER ERROR:', err.message);
+  res.status(500).json({ error: 'Registration failed: ' + err.message });
+}
 });
 
 // ── POST /api/auth/verify-otp ─────────────────────────────────────────────────
