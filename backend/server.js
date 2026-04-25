@@ -20,7 +20,7 @@ const allowedOrigins = [
   'http://127.0.0.1:3000',
   'http://localhost:3000',
   'https://bugtrack.vercel.app',
-  'https://bugtrack-soyalchawhans-projects.vercel.app',  // ← your actual URL
+  'https://https://bugtrack-soyalchawhans-projects.vercel.app',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
