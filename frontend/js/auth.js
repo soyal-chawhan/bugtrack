@@ -92,26 +92,40 @@ const Auth = {
   },
 
   // Google Sign-In popup
+  // at the top of the Auth object, before googleSignIn
+_googleReady: false,
+
 googleSignIn() {
   if (typeof google === 'undefined') {
-    alert('Google Sign-In is loading. Please wait a second and try again.');
+    alert('Google Sign-In is still loading. Please wait 2 seconds and try again.');
     return;
   }
 
-  // only initialize once
-  if (!Auth._googleInitialized) {
+  if (!Auth._googleReady) {
     google.accounts.id.initialize({
-      client_id:             '759141366298-5u2hf2h42lh9enc2t2msv160b9prjn35.apps.googleusercontent.com',
-      callback:              Auth.handleGoogleResponse,
-      auto_select:           false,
-      cancel_on_tap_outside: true,
+      client_id: '759141366298-5u2hf2h42lh9enc2t2msv160b9prjn35.apps.googleusercontent.com',
+      callback:  Auth.handleGoogleResponse,
+      ux_mode:   'popup',
     });
-    Auth._googleInitialized = true;
+    Auth._googleReady = true;
   }
 
   google.accounts.id.prompt();
 },
 
+async handleGoogleResponse(response) {
+  try {
+    const data = await post('/auth/google', { idToken: response.credential });
+    if (data.error) {
+      showError('loginError', data.error);
+      return;
+    }
+    saveSession(data.token, data.user);
+    window.location.href = 'app.html';
+  } catch {
+    showError('loginError', 'Google sign-in failed. Please try again.');
+  }
+},
 _googleInitialized: false,
 
   // resend OTP button
