@@ -1,8 +1,3 @@
-/* =============================================
-   BugTrack — auth.css
-   Auth screens, theme picker, all 6 themes
-   ============================================= */
-
 [data-theme="light"] {
   --bg-page:        #f4f3ef;
   --bg-surface:     #ffffff;
