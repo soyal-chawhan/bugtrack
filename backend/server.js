@@ -13,7 +13,7 @@ const commentRoutes = require('./routes/comments');
 const app  = express();
 const PORT = process.env.PORT || 5000;
 
-// ── MIDDLEWARE — must be before routes ────────────────────────────────────────
+// ── MIDDLEWARE────────────────────────────────
 
 app.use(helmet());
 
@@ -36,7 +36,6 @@ app.use(cors({
   credentials:    true,
 }));
 
-// THIS LINE IS CRITICAL — must be here before any routes
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -45,7 +44,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// ── ROUTES — must be after middleware ─────────────────────────────────────────
+// ── ROUTES──────────────────────────────────
 
 app.get('/', (req, res) => {
   res.json({ message: 'BugTrack API running', version: '2.0.0' });
@@ -56,7 +55,7 @@ app.use('/api/tickets',  ticketRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/comments', commentRoutes);
 
-// ── ERROR HANDLERS ────────────────────────────────────────────────────────────
+// ── ERROR HANDLERS ────────────────────
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
@@ -67,7 +66,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong.' });
 });
 
-// ── DATABASE + START ──────────────────────────────────────────────────────────
+// ── DATABASE + START ────────────────────
 
 mongoose
   .connect(process.env.MONGO_URI)
